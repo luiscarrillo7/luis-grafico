@@ -15,9 +15,9 @@ header h1 { margin:0 0 8px; font-size:27px; } header p { margin:0; opacity:.9; f
 .card h2 { color:var(--blue); margin:0 0 7px; font-size:21px; }
 .subtitle { color:var(--muted); margin:0 0 15px; font-size:13px; line-height:1.45; }
 .note { background:#f1f5f9; border-left:4px solid #2b6797; padding:10px 12px; border-radius:7px; font-size:12px; color:#475569; margin-bottom:16px; }
-.chart-area { display:grid; grid-template-columns:minmax(520px,1fr) minmax(260px,390px); gap:18px; align-items:center; }
+.chart-area { display:grid; grid-template-columns:minmax(480px,1fr) minmax(240px,340px); gap:24px; align-items:center; }
 svg { width:100%; height:auto; display:block; }
-.legend { display:grid; grid-template-columns:1fr; gap:7px; max-height:430px; overflow:auto; padding:4px 8px 4px 2px; }
+.legend { display:grid; grid-template-columns:1fr; gap:8px; max-height:600px; overflow:auto; padding:4px 8px 4px 2px; }
 .legend-item { display:flex; gap:8px; align-items:flex-start; font-size:12px; line-height:1.3; }
 .dot { width:12px; height:12px; min-width:12px; border-radius:50%; margin-top:2px; box-shadow:0 1px 2px #999; }
 .legend strong { color:#0f172a; }
@@ -27,11 +27,11 @@ button { border:0; border-radius:9px; background:#174d7a; color:white; padding:1
 button:hover { background:#0f3b5d; }
 @media(max-width:850px) { .chart-area { grid-template-columns:1fr; } .legend { max-height:300px; } }
 @media print { body { background:white; } .card { box-shadow:none; break-inside:avoid; } button { display:none; } }
-.pct { font-size:13px; font-weight:700; fill:#fff; paint-order:stroke; stroke:#333; stroke-width:2.5px; stroke-opacity:.35; }
-.pct.outside { fill:#1f2937; stroke:#fff; stroke-width:3px; stroke-opacity:.85; }
-.leader { stroke:#64748b; stroke-width:1.1; fill:none; }
-.center-total { font-size:25px; font-weight:800; fill:#16324f; }
-.center-label { font-size:11px; font-weight:700; fill:#64748b; letter-spacing:1px; }
+.pct { font-size:16px; font-weight:700; fill:#fff; paint-order:stroke; stroke:#333; stroke-width:2.5px; stroke-opacity:.35; }
+.pct.outside { fill:#1f2937; stroke:#fff; stroke-width:3px; stroke-opacity:.85; font-size: 14px; }
+.leader { stroke:#94a3b8; stroke-width:1.2; fill:none; }
+.center-total { font-size:34px; font-weight:800; fill:#16324f; }
+.center-label { font-size:14px; font-weight:700; fill:#64748b; letter-spacing:1px; }
 </style>
 </head>
 <body>
@@ -47,92 +47,78 @@ Fuente base: <strong>Informe Defensorial N.° 286</strong>, Defensoría del Pueb
 <script>
 const charts = [{"num": "1", "title": "Cifras 100% de hallazgos de lavado de activos seccionados por entidades intervinientes", "subtitle": "Distribución visual de las cifras reportadas en los hallazgos generales. Las instituciones corresponden a etapas/unidades distintas y no deben sumarse como casos únicos.", "data": [["PNP – DIRILAED", 2643], ["Ministerio Público", 6616], ["Poder Judicial", 459], ["UIF", 1456], ["INPE", 142], ["Defensoría del Pueblo", 49], ["CSNJPE", 12]], "source": "Cuadro estadístico, apartado 1. Hallazgos generales."}, {"num": "2", "title": "Estado de las investigaciones policiales – 2026", "subtitle": "Distribución porcentual de las 394 carpetas examinadas.", "data": [["En trámite", 302], ["Con plazo vencido", 92]], "source": "Cuadro estadístico, apartado 2."}, {"num": "3", "title": "Estado procesal informado por el Ministerio Público", "subtitle": "Distribución porcentual de los 2,462 registros con etapa informada.", "data": [["Asignados a la PNP en investigación preliminar", 544], ["Investigación en sede fiscal", 36], ["Investigación preliminar fiscal", 1555], ["Formalización de investigación preparatoria", 291], ["Acusación", 14], ["Audiencia", 10], ["Sentencia", 12]], "source": "Cuadro estadístico, apartado 3."}, {"num": "4", "title": "Concentración por etapa procesal de las investigaciones", "subtitle": "Distribución porcentual sobre 2,462 registros con etapa informada.", "data": [["Etapas iniciales", 2135], ["Investigación formalizada", 291], ["Acusación", 14], ["Audiencia", 10], ["Sentencia", 12]], "source": "Cuadro estadístico, apartado 4."}, {"num": "5", "title": "Estado de los casos en FECOR y FECOF", "subtitle": "Distribución porcentual de los 573 casos con estado identificado.", "data": [["Investigación preliminar fiscal", 335], ["Investigación policial", 183], ["Formalizados", 43], ["Acusación", 2], ["Juzgamiento", 3], ["Sentencia o resolución final", 7]], "source": "Cuadro estadístico, apartado 5."}, {"num": "6", "title": "Decisiones judiciales por resultado", "subtitle": "Distribución porcentual de las 459 decisiones judiciales registradas.", "data": [["Sentencias condenatorias", 234], ["Sentencias absolutorias", 220], ["Reserva de fallo condenatorio", 5]], "source": "Cuadro estadístico, apartado 6."}, {"num": "7", "title": "Personas privadas de libertad por situación jurídica – 2026", "subtitle": "Distribución porcentual de las 142 personas privadas de libertad.", "data": [["Procesadas con prisión preventiva", 54], ["Con sentencia condenatoria", 88]], "source": "Cuadro estadístico, apartado 7."}, {"num": "8", "title": "Investigaciones fiscales por territorio, 2019–2025", "subtitle": "Participación porcentual de los 5,633 casos distribuidos por distrito fiscal o territorio.", "data": [["Lima Centro", 3152], ["Arequipa", 643], ["Puno/Juliaca", 537], ["Tacna", 372], ["Lima Norte", 351], ["Callao", 350], ["Tumbes", 116], ["Santa", 112]], "source": "Cuadro estadístico, apartado 8."}, {"num": "9", "title": "Decisiones judiciales por territorio", "subtitle": "Participación porcentual de las 459 decisiones judiciales según distrito judicial.", "data": [["Amazonas", 2], ["Áncash", 13], ["Apurímac", 6], ["Arequipa", 30], ["Ayacucho", 43], ["Cajamarca", 7], ["Callao", 39], ["Corte Superior Nacional Especializada", 49], ["Cusco", 11], ["Huancavelica", 1], ["Huánuco", 8], ["Huaura", 4], ["Ica", 1], ["Junín", 12], ["La Libertad", 16], ["Lambayeque", 6], ["Lima", 33], ["Lima Este", 1], ["Lima Norte", 11], ["Lima Sur", 3], ["Loreto", 18], ["Madre de Dios", 18], ["Moquegua", 6], ["Pasco", 3], ["Piura", 3], ["Puno", 62], ["Sala Penal Nacional", 1], ["San Martín", 2], ["Santa", 3], ["Selva Central", 3], ["Sullana", 4], ["Tacna", 25], ["Tumbes", 13], ["Ucayali", 2]], "source": "Cuadro estadístico, apartado 9."}];
 const colors = ["#5B9BD5","#ED7D31","#A5A5A5","#FFC000","#4472C4","#70AD47","#8064A2","#255E91","#9E480E","#636363","#997300","#264478","#548235","#7F6000","#2F5597","#C55A11","#7F7F7F","#BF9000","#203864","#375623","#7030A0","#2E75B6","#C00000","#00B0F0","#70AD47","#FF66CC","#A64D79","#38761D","#134F5C","#674EA7","#783F04","#1155CC","#45818E","#85200C"];
-
 function polar(cx,cy,r,a) { const t=(a-90)*Math.PI/180; return [cx+r*Math.cos(t),cy+r*Math.sin(t)]; }
 function arcPath(cx,cy,r,s,e) { const [x1,y1]=polar(cx,cy,r,e),[x2,y2]=polar(cx,cy,r,s); const large=(e-s)>180?1:0; return `M ${cx} ${cy} L ${x1.toFixed(2)} ${y1.toFixed(2)} A ${r} ${r} 0 ${large} 0 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`; }
 function shade(hex,amt) { const n=parseInt(hex.slice(1),16); let r=(n>>16)&255,g=(n>>8)&255,b=n&255; r=Math.max(0,Math.min(255,r+amt));g=Math.max(0,Math.min(255,g+amt));b=Math.max(0,Math.min(255,b+amt));return '#'+[r,g,b].map(v=>v.toString(16).padStart(2,'0')).join(''); }
 
-// Ancho de texto aproximado (fuente 13px) para decidir si el % cabe DENTRO del sector.
-function estTextWidth(str){ return str.length*7.3 + 4; }
-
-// Calcula ángulos, decide adentro/afuera por sector (según si el arco es más ancho
-// que el propio texto, no solo por un % fijo) y resuelve colisiones verticales
-// entre las etiquetas "afuera" (líneas conectoras) por lado izquierdo/derecho.
-function layoutChart(c, cx, r) {
-  const total = c.data.reduce((a,b)=>a+b[1],0);
-  const minGap = 16, sidePad = 40, baseH = 440;
-  let angle = 0;
-
-  const slices = c.data.map((item)=>{
-    const name=item[0], value=item[1], pct=value/total*100, sweep=value/total*360;
-    const start=angle, end=angle+sweep, mid=(start+end)/2;
-    angle = end;
-    const arcLenAtLabelR = sweep*(Math.PI/180)*(r*0.63);
-    const txt = pct.toFixed(2)+'%';
-    const inside = arcLenAtLabelR >= estTextWidth(txt) + 6;
-    const t = (mid-90)*Math.PI/180;
-    return {
-      name, value, pct, start, end, mid, color:'', inside, txt,
-      relY: r*1.15*Math.sin(t), relYWedge: r*0.78*Math.sin(t),
-      relX: r*1.15*Math.cos(t), relXWedge: r*0.78*Math.cos(t),
-      side: Math.cos(t) < 0 ? 'left' : 'right'
-    };
-  });
-
-  const outside = slices.filter(s=>!s.inside);
-  ['left','right'].forEach(side=>{
-    const arr = outside.filter(o=>o.side===side).sort((a,b)=>a.relY-b.relY);
-    if(!arr.length) return;
-    arr[0].relYFinal = arr[0].relY;
-    for(let i=1;i<arr.length;i++){
-      arr[i].relYFinal = Math.max(arr[i].relY, arr[i-1].relYFinal + minGap);
-    }
-    const blockCenter = (arr[0].relYFinal + arr[arr.length-1].relYFinal)/2;
-    arr.forEach(o=> o.relYFinal -= blockCenter);
-    const span = arr[arr.length-1].relYFinal - arr[0].relYFinal;
-    arr.forEach(o=> o.span = span);
-  });
-
-  const spanMax = outside.reduce((m,o)=>Math.max(m,o.span||0),0);
-  const H = Math.max(baseH, spanMax + sidePad*2);
-  const cy = H/2;
-
-  outside.forEach(o=>{
-    o.x1 = cx + o.relXWedge; o.y1 = cy + o.relYWedge;
-    o.xOuterNat = cx + o.relX; o.yOuterNat = cy + o.relY;
-    o.xCol = o.side==='left' ? cx - r*1.42 : cx + r*1.42;
-    o.yFinal = cy + o.relYFinal;
-  });
-
-  return { slices, outside, H, cy };
-}
-
 function makeChart(c,index) {
- const W=700, cx=265, r=142, depth=28;
- const total = c.data.reduce((a,b)=>a+b[1],0);
- const { slices, H, cy } = layoutChart(c, cx, r);
-
- let topPaths='', depthPaths='', labels=''; const legend=[];
- slices.forEach((s,i)=>{
-   const color = colors[i%colors.length];
-   for(let d=depth; d>=1; d-=2) depthPaths += `<path d="${arcPath(cx,cy+d,r,s.start,s.end)}" fill="${shade(color,-55)}" stroke="#fff" stroke-width=".7"/>`;
-   topPaths += `<path d="${arcPath(cx,cy,r,s.start,s.end)}" fill="${color}" stroke="#fff" stroke-width="1.2"/>`;
-
-   if (s.inside) {
-     const [lx,ly] = polar(cx,cy,r*.63,s.mid);
-     labels += `<text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="middle" class="pct">${s.txt}</text>`;
-   } else {
-     const anchor = s.side==='left' ? 'end' : 'start';
-     const tx = s.xCol + (s.side==='left' ? -6 : 6);
-     labels += `<polyline points="${s.x1.toFixed(1)},${s.y1.toFixed(1)} ${s.xOuterNat.toFixed(1)},${s.yOuterNat.toFixed(1)} ${s.xCol.toFixed(1)},${s.yFinal.toFixed(1)}" class="leader" fill="none"/>`;
-     labels += `<text x="${tx.toFixed(1)}" y="${(s.yFinal+4).toFixed(1)}" text-anchor="${anchor}" class="pct outside">${s.txt}</text>`;
+ const total=c.data.reduce((a,b)=>a+b[1],0);
+ const sliceCount = c.data.length;
+ // Aumento dinámico del alto del SVG dependiendo de cuántos elementos existan
+ const dynamicH = Math.max(500, 320 + sliceCount * 20);
+ const W=640, H=dynamicH, cx=320, cy=dynamicH/2, r=150, depth=22;
+ 
+ let angle=0, topPaths='', depthPaths='', labels='';
+ let leftLabels=[], rightLabels=[];
+ const legend=[];
+ 
+ c.data.forEach((item,i)=>{
+   const name=item[0], value=item[1], pct=value/total*100;
+   const sweep=value/total*360, start=angle, end=angle+sweep;
+   const color=colors[i%colors.length];
+   
+   // Profundidad 3D (Se omite en rebanadas muy pequeñas para evitar suciedad visual)
+   if (pct >= 1.5) {
+       for(let d=depth; d>=1; d-=2) {
+           depthPaths+=`<path d="${arcPath(cx,cy+d,r,start,end)}" fill="${shade(color,-50)}" stroke="none"/>`;
+       }
    }
-
-   legend.push(`<div class="legend-item"><span class="dot" style="background:${color}"></span><span>${s.name} — <strong>${s.value.toLocaleString('es-PE')}</strong> (${s.pct.toFixed(2)}%)</span></div>`);
+   
+   // Tapas del pastel
+   topPaths+=`<path d="${arcPath(cx,cy,r,start,end)}" fill="${color}" stroke="#fff" stroke-width="1.2"/>`;
+   
+   const mid=(start+end)/2;
+   
+   // Etiquetas interiores o exteriores
+   if(pct >= 5) {
+       const [lx,ly]=polar(cx,cy,r*.6,mid);
+       labels+=`<text x="${lx.toFixed(1)}" y="${(ly+5).toFixed(1)}" text-anchor="middle" class="pct">${pct.toFixed(1)}%</text>`;
+   } else {
+       const [x1,y1]=polar(cx,cy,r*0.95,mid);
+       const isLeft = mid > 180;
+       const x2 = cx + (isLeft ? -1 : 1) * (r * 1.35);
+       const labelObj = { x1, y1, x2, y2: y1, pct, isLeft };
+       if (isLeft) leftLabels.push(labelObj);
+       else rightLabels.push(labelObj);
+   }
+   
+   legend.push(`<div class="legend-item"><span class="dot" style="background:${color}"></span><span>${name} — <strong>${value.toLocaleString('es-PE')}</strong> (${pct.toFixed(2)}%)</span></div>`);
+   angle=end;
  });
-
- const note = index===0 ? `<div class="note"><strong>Nota metodológica:</strong> las cifras de PNP, Ministerio Público, Poder Judicial, UIF, INPE, Defensoría y CSNJPE corresponden a actuaciones o universos diferentes. El 100% del gráfico se usa solo como referencia visual de las cifras mostradas; no representa una suma real de casos ni una tasa de conversión.</div>` : '';
-
+ 
+ // Algoritmo anti-superposición para separar las etiquetas izquierdas y derechas
+ function adjustLabels(arr) {
+     arr.sort((a,b) => a.y2 - b.y2);
+     for(let i=1; i<arr.length; i++) {
+         if (arr[i].y2 < arr[i-1].y2 + 16) {
+             arr[i].y2 = arr[i-1].y2 + 16;
+         }
+     }
+     return arr;
+ }
+ leftLabels = adjustLabels(leftLabels);
+ rightLabels = adjustLabels(rightLabels);
+ 
+ [...leftLabels, ...rightLabels].forEach(l => {
+     const tx = l.isLeft ? l.x2 - 6 : l.x2 + 6;
+     const anchor = l.isLeft ? "end" : "start";
+     // Creación de la línea guía en forma de "L"
+     labels += `<polyline points="${l.x1.toFixed(1)},${l.y1.toFixed(1)} ${l.x2.toFixed(1)},${l.y1.toFixed(1)} ${l.x2.toFixed(1)},${l.y2.toFixed(1)}" class="leader"/>`;
+     labels += `<text x="${tx.toFixed(1)}" y="${(l.y2 + 5).toFixed(1)}" text-anchor="${anchor}" class="pct outside">${l.pct.toFixed(2)}%</text>`;
+ });
+ 
+ const note=index===0?`<div class="note"><strong>Nota metodológica:</strong> las cifras de PNP, Ministerio Público, Poder Judicial, UIF, INPE, Defensoría y CSNJPE corresponden a actuaciones o universos diferentes. El 100% del gráfico se usa solo como referencia visual de las cifras mostradas; no representa una suma real de casos ni una tasa de conversión.</div>`:'';
+ 
  return `<section class="card"><h2>${c.num}. ${c.title}</h2><p class="subtitle">${c.subtitle}</p>${note}<div class="chart-area"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${c.title}"><defs><filter id="shadow${index}" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-opacity=".20"/></filter></defs><g filter="url(#shadow${index})">${depthPaths}${topPaths}</g><ellipse cx="${cx}" cy="${cy+r+depth+7}" rx="${r*.82}" ry="12" fill="#000" opacity=".08"/>${labels}<text x="${cx}" y="${cy+5}" text-anchor="middle" class="center-total">${total.toLocaleString('es-PE')}</text><text x="${cx}" y="${cy+24}" text-anchor="middle" class="center-label">TOTAL</text></svg><div class="legend">${legend.join('')}</div></div><div class="source">${c.source} · Fuente: Informe Defensorial N.° 286 – Defensoría del Pueblo, julio de 2026.</div></section>`;
 }
 document.getElementById('app').innerHTML=charts.map(makeChart).join('');
